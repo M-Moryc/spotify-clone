@@ -1,3 +1,49 @@
-.container{
+.container-fluid {
   color: white;
+  padding: 0 30px;
+}
+.info {
+  height: 200px;
+  position: relative;
+}
+.info h1 {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+}
+.list {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-left: 100px;
+}
+.card {
+  width: 250px;
+  height: 450px;
+  margin: 20px 0;
+  color: whitesmoke;
+  background-color: #121212;
+  box-shadow: 0 5px 10px 0 black;
+  transition: 0.3s;
+  margin-left: -100px;
+}
+.card:hover {
+  margin-right: 100px;
+  transform: scale(1.1);
+}
+.card-img-top {
+  padding: 10px 10px 0 10px;
+  width: 100%;
+  overflow: hidden;
+}
+.card-title {
+  color: #1DB954;
+}
+.date {
+  margin: 0;
+  color: #535353;
+  font-size: 14px;
+}
+.card-text p {
+  margin: 0;
 }

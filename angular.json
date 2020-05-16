@@ -120,6 +120,10 @@
           }
         }
       }
-    }},
-  "defaultProject": "spotify-clone"
+    }
+  },
+  "defaultProject": "spotify-clone",
+  "cli": {
+    "analytics": false
+  }
 }

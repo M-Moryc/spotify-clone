@@ -22,6 +22,7 @@ export class PlaylistComponent implements OnInit {
     this.route.params.subscribe(
       (params) => this.tracksArray=this.spotifyService.getPlaylist(params.id)
     );
+    console.log(this.tracksArray)
   }
 
 }

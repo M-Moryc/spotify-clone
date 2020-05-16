@@ -1,12 +1,28 @@
-<div class="container">
-    <div class="row">
-        <ul>
-            <li>PLAYLISTY</li>
-            <ul class="playlist-list">
-              <ng-container *ngFor="let item of playlistArray | async">
-                  <li><a [routerLink]="'playlist/'+item.id">{{ item.name}}</a></li>
-               </ng-container>
-            </ul>
-        </ul>
+<div class="container-fluid">
+  <div class="row">
+    <p style="cursor: default">PLAYLISTY</p>
+  </div>
+  <div class="row">
+    <div class="navBox">
+      <a routerLink="" >
+        <div class="navitem">
+          <span class="fa fa-plus-circle"></span> Utwórz playlistę
+        </div>
+      </a>
+      <a routerLink="" >
+        <div class="navitem">
+          <span class="fa fa-gratipay"></span> Polubione utwory
+        </div>
+      </a>
     </div>
+  </div>
+  <div class="row list">
+    <ul class="playlist-list">
+      <ng-container *ngFor="let item of playlistArray | async">
+        <a [routerLink]="'playlist/'+item.id">
+          <li>{{ item.name}}</li>
+        </a>
+      </ng-container>
+    </ul>
+  </div>
 </div>

@@ -1,12 +1,23 @@
-<div class="container">
-  <div class="row">
-      <ul>
-          <li>tracks</li>
-          <ul class="track-list">
-            <ng-container *ngFor="let item of tracksArray | async">
-                <li>{{ item.track.name}}</li>
-             </ng-container>
-          </ul>
-      </ul>
+<div class="container-fluid">
+  <div class="row info">
+    <h1>Playlist: </h1>
+  </div>
+  <div class="row list">
+    <ng-container *ngFor="let item of tracksArray | async">
+      <div class="card">
+        <img class="card-img-top" [src]="item.track.album.images[0].url" alt="Card image cap" />
+        <div class="card-body">
+          <h5 class="card-title">{{ item.track.name}}<p class="date">{{item.track.album.release_date}} ({{item.track.album.album_type}})</p></h5>
+          <div class="card-text">
+            <p>{{item.track.artists[0].name}}</p>
+            <p><span class="fa fa-users"></span> {{item.track.popularity}}</p>
+          </div>
+        </div>
+      </div>
+
+
+
+
+    </ng-container>
   </div>
 </div>

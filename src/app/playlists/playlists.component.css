@@ -1,17 +1,60 @@
-ul {
-    list-style: none;
+.container-fluid {
+  height: 60vh;
+  overflow: hidden;
 }
-li:nth-child(n+2) {
-    font-weight: bold;
+.navBox {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  font-size: 18px;
+  width: 100%;
+  padding-bottom: 10px;
+  border-bottom: 1px solid gray;
+  font-weight: bold;
 }
-.playlist-list {
-  overflow:hidden;
-  overflow-y:scroll;
-  height: 70vh;
-  scrollbar-color: grey black;
-}
-a{
+.navBox a {
+  color: #535353;
   text-decoration: none;
-  color: inherit;
 }
-
+.navBox a:hover {
+  color: #1DB954;
+}
+.navitem span {
+  margin-right: 10px;
+}
+.list {
+  margin-top: 20px;
+  overflow-y: scroll;
+  max-height: 46.9vh;
+}
+ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+ul a {
+  color: #535353;
+  text-decoration: none;
+}
+ul a:hover {
+  color: #1DB954;
+}
+li {
+  transition: 0.2s;
+}
+ul a:hover li {
+  padding-left: 10px;
+}
+/* width */
+::-webkit-scrollbar {
+  width: 15px;
+  background-color: transparent;
+}
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: transparent;
+}
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: transparent;
+}
