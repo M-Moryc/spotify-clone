@@ -9,7 +9,7 @@ export class LoginComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
-    window.location.href = 'http://localhost:3001';
+    window.location.href = 'https://spotify-clone-dywn.herokuapp.com/';
   }
 
 }

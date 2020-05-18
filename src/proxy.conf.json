@@ -1,6 +1,6 @@
 {
   "/api/*": {
-      "target": "http://localhost:3001",
+      "target": "https://spotify-clone-dywn.herokuapp.com/",
       "secure": false,
       "logLevel": "debug",
       "pathRewrite": {

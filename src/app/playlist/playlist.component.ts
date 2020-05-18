@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import { SpotifyService } from '../spotify.service'
+import { from } from 'rxjs';
 
 @Component({
   selector: 'app-playlist',
@@ -8,7 +9,8 @@ import { SpotifyService } from '../spotify.service'
   styleUrls: ['./playlist.component.css']
 })
 export class PlaylistComponent implements OnInit {
-  tracksArray;
+  tracksArray: any[];
+  playlistName: string;
   spotifyService: SpotifyService;
   route: ActivatedRoute;
 
@@ -20,7 +22,14 @@ export class PlaylistComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.params.subscribe(
-      (params) => this.tracksArray=this.spotifyService.getPlaylist(params.id)
+      (params) => {
+        from(this.spotifyService.getPlaylist(params.id)).subscribe(
+          (res: any) => {
+            this.tracksArray = res.tracks.items;
+            this.playlistName = res.name;
+          }
+        );
+      }
     );
     console.log(this.tracksArray)
   }
