@@ -1,4 +1,136 @@
-.container-fluid {
+.menu {
+  width: 100%;
+  height: 60px;
+  background-color: black;
+  position: fixed;
+  z-index: 100;
+  color: #535353;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+.logo {
+  background-color: inherit;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+.logo h1 {
+  font-size: 32px;
+  color: whitesmoke;
+}
+.logo h1 span {
+  position: absolute;
+  top: 5px;
+  background-image: none;
+  font-size: 14px;
+  color: #1DB954;
+}
+.logo span {
+  background-image: url(../img/logo.png);
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  width: 40px;
+  height: 40px;
+  margin-right: 5px;
+  margin-top: -5px;
+}
+.menu_burger {
+  cursor: pointer;
+}
+.menu_burger div {
+  width: 25px;
+  height: 3px;
+  background-color: whitesmoke;
+  margin: 5px;
+  transition: 0.3s linear;
+}
+.burger_active .line1 {
+  margin: 0px;
+  transform: translate(0,3px) rotate(45deg);
+}
+.burger_active .line2 {
+  width: 0;
+  margin: 0;
+  height: 0;
+}
+.burger_active .line3 {
+  margin: 0px;
+  transform: rotate(-45deg);
+}
+.active .menu_link {
+  background-color: #212121;
+  color: #1DB954;
+}
+.menu_content {
+  position: absolute;
+  width: 100%;
+  height: calc( 100vh - 60px );
+  background-color: black;
+  top: 60px;
+  left: 0;
+  transform: translateX(-110%);
+  transition: 0.1s linear;
+}
+.menu_content a {
+  color: inherit;
+  text-decoration: none;
+}
+.menu_content a:hover {
+  color: #1DB954;
+}
+.menu_link {
+  width: 100%;
+  color: inherit;
+  padding: 5px;
+  border-radius: 5px;
+  margin: 5px 0;
+  box-shadow: inset 0 0 5px black;
+}
+.menu_link span {
+  font-weight: 300;
+}
+.showlinks {
+  transform: translateX(0%);
+}
+.menu_links {
+  font-weight: bold;
+  padding-top: 20px;
+  font-size: 18px;
+}
+.menu_playlist {
+  padding: 0 20px;
+}
+@media only screen and (min-width: 1024px) {
+  .menu {
+    width: 230px;
+    height: 100vh;
+    display: block;
+  }
+  .logo {
+    width: 100%;
+    justify-content: start;
+    margin: 10px 0;
+    padding: 0 10px;
+  }
+  .menu_burger {
+    display: none;
+  }
+  .menu_content {
+    display: block;
+    top: 60px;
+    left: 0;
+    transform: translateX(0%);
+    transition: 0s;
+  }
+  .menu_links {
+    text-align: left;
+  }
+}
+
+/*.container-fluid {
     background-color: #000000;
     color: #535353;
     height: 100vh;
@@ -65,3 +197,4 @@
 .playlist {
   padding: 0 20px;
 }
+*/

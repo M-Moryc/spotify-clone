@@ -1,4 +1,42 @@
-<div class="container-fluid">
+<div class="menu">
+  <div class="logo">
+    <span></span>
+    <h1>Spotify<span>Clone</span></h1>
+  </div>
+  <div class="menu_content" [ngClass]="ShowLinks ? 'showlinks':'' ">
+    <div class="container">
+
+      <div class="menu_links">
+        <a routerLink="" class="active">
+          <div class="menu_link">
+            <span class="fa fa-home"></span> Home
+          </div>
+        </a>
+        <a routerLink="">
+          <div class="menu_link">
+            <span class="fa fa-search"></span> Szukaj
+          </div>
+        </a>
+        <a routerLink="">
+          <div class="menu_link">
+            <span class="fa fa-list"></span> Biblioteka
+          </div>
+        </a>
+      </div>
+      <div class="menu_playlist">
+        <app-playlists></app-playlists>
+      </div>
+    </div>
+  </div>
+  <div class="menu_burger" (click)="showLinks()" [ngClass]="ShowLinks ? 'burger_active':''" >
+    <div class="line1"></div>
+    <div class="line2"></div>
+    <div class="line3"></div>
+  </div>
+</div>
+
+
+<!--<div class="container-fluid">
   <div class="row logo">
     <span></span><h3>Spotify<span>Clone</span></h3>
   </div>
@@ -27,3 +65,4 @@
     </div>
   </div>
 </div>
+-->
