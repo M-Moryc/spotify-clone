@@ -1,4 +1,8 @@
-.container-fluid, .row, .col-2, .col-10 {
+.container-fluid, .row, .col-lg-2, .col-lg-10 {
     padding: 0;
     margin: 0;
+}
+.row {
+  height: 100vh;
+  overflow: hidden;
 }

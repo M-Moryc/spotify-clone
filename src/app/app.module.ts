@@ -11,6 +11,7 @@ import { HomeComponent } from './home/home.component';
 import { LoginComponent } from './login/login.component';
 import { PlaylistComponent } from './playlist/playlist.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { PlaybackBarComponent } from './playback-bar/playback-bar.component';
 
 
 @NgModule({
@@ -21,7 +22,8 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
     MainWindowComponent,
     HomeComponent,
     LoginComponent,
-    PlaylistComponent
+    PlaylistComponent,
+    PlaybackBarComponent
   ],
   imports: [
     BrowserModule,

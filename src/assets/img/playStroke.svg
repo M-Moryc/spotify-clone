@@ -1,0 +1,8 @@
+<svg id="Warstwa_1" data-name="Warstwa 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="#535353">
+  <title>playStroke</title>
+  <circle cx="32" cy="32" r="32" style="fill: none;stroke: #000;stroke-miterlimit: 10"/>
+  <g>
+    <rect x="25.03" y="8" width="3.3" height="44" rx="1.5"/>
+    <rect x="34.92" y="8" width="3.3" height="44" rx="1.5"/>
+  </g>
+</svg>

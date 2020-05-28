@@ -28,7 +28,7 @@
   color: #1DB954;
 }
 .logo span {
-  background-image: url(../img/logo.png);
+  background-image: url(../../assets/img/logo.png);
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
@@ -100,14 +100,12 @@
   padding-top: 20px;
   font-size: 18px;
 }
-.menu_playlist {
-  padding: 0 20px;
-}
 @media only screen and (min-width: 1024px) {
   .menu {
     width: 230px;
-    height: 100vh;
+    height: calc( 100vh - 90px );
     display: block;
+    z-index: 98;
   }
   .logo {
     width: 100%;
@@ -129,72 +127,3 @@
     text-align: left;
   }
 }
-
-/*.container-fluid {
-    background-color: #000000;
-    color: #535353;
-    height: 100vh;
-    padding-top: 30px;
-}
-.logo {
-  padding: 20px 0 30px 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  cursor: default;
-}
-.logo span {
-  background-image: url(../img/logo.png);
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: center;
-  width: 50px;
-  height: 50px;
-  margin-right: 5px;
-}
-.logo h3 {
-  color: whitesmoke;
-  position: relative;
-  margin: 0;
-  padding: 0;
-  text-shadow: 0 0 8px gray;
-}
-.logo h3 span {
-  background-image: none;
-  color: #1DB954;
-  position: absolute;
-  top: 0;
-  font-size: 14px;
-}
-.navBox {
-  padding: 10px 0;
-  display: flex;
-  flex-direction: column;
-  font-size: 18px;
-}
-.navBox a {
-  color: #535353;
-  text-decoration: none;
-  text-shadow: 0 0 5px black;
-  font-weight: 500;
-}
-.navBox a:hover {
-  color: #1DB954;
-}
-.navitem {
-  border-radius: 5px;
-  padding: 5px 20px;
-  margin: 5px 0;
-  box-shadow: inset 0 0 5px black;
-}
-.navitem span {
-  margin-right: 10px;
-}
-.active .navitem {
-  background-color: #212121;
-  color: #1DB954;
-}
-.playlist {
-  padding: 0 20px;
-}
-*/
