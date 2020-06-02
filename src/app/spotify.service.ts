@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import spotifyWebApi from 'spotify-web-api-node';
-import { from } from 'rxjs';
+import { from, Observable, of, Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http'
+
 
 
 
@@ -57,8 +58,6 @@ export class SpotifyService {
   getCurrentAccessToken(){
     return [this.spotifyApi._credentials.accessToken];
   }
-
-
 
 
 }

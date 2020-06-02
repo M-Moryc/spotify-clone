@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { get } from 'scriptjs';
 import { SpotifyService } from './spotify.service';
+import { Subject } from 'rxjs';
 
 declare let Spotify;
 
@@ -10,6 +11,7 @@ declare let Spotify;
 export class PlayerService {
   spotifyService: SpotifyService;
   player;
+  currentTrack = new Subject();
 
   constructor( SpotifyService: SpotifyService) {
     this.spotifyService = SpotifyService;
@@ -30,7 +32,19 @@ export class PlayerService {
       this.player.addListener('playback_error', ({ message }) => { console.error(message); });
 
       // Playback status updates
-      this.player.addListener('player_state_changed', state => { console.log(state); });
+      this.player.addListener('player_state_changed', ({
+        position,
+        duration,
+        track_window: { current_track }
+      }) => {
+        let currentTrack = {name: current_track.name,
+        artist: current_track.artists[0].name,
+        cover: current_track.album.images[2].url
+        };
+        this.currentTrack.next(
+          currentTrack
+        );
+      });
 
       // Ready
       this.player.addListener('ready', ({ device_id }) => {
