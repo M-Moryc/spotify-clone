@@ -39,6 +39,7 @@ export class PlaybackBarComponent implements OnInit {
          this.changeDetector.detectChanges();
 
       });
+      this.spotifyService.getCurrentDeviceId();
   }
 
 

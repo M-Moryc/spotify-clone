@@ -11,6 +11,7 @@ declare let Spotify;
 export class PlayerService {
   spotifyService: SpotifyService;
   player;
+  deviceId: string;
   currentTrack = new Subject();
 
   constructor( SpotifyService: SpotifyService) {
@@ -24,7 +25,8 @@ export class PlayerService {
           name: 'Web Playback SDK Quick Start Player',
           getOAuthToken: cb => cb(SpotifyService.getCurrentAccessToken())
         });
-        console.log(this.player);
+        this.player._options.id = 'c0047022f18a973a99ece86e757065810ff953f8';
+        console.log('player: ' ,this.player);
         // Error handling
       this.player.addListener('initialization_error', ({ message }) => { console.error(message); });
       this.player.addListener('authentication_error', ({ message }) => { console.error(message); });
@@ -84,12 +86,28 @@ export class PlayerService {
       });
     };
 
-    playSong(spotifyUri: string){
-      this.play({
-       playerInstance: this.player,
-       spotify_uri: spotifyUri,
-     });
-   }
+    async playSong(contextUri: string, offset: number){
+      fetch("https://api.spotify.com/v1/me/player/play?device="+await this.spotifyService.getCurrentDeviceId(), {
+        body: JSON.stringify({'context_uri': contextUri, offset: {position: offset}}),
+        headers: {
+          Accept: "application/json",
+          Authorization: "Bearer "+this.spotifyService.getCurrentAccessToken(),
+          "Content-Type": "application/json"
+        },
+        method: "PUT"
+    }).then((res) => console.log(res));
+  }
+
+   async skipSong(direction){
+    fetch("https://api.spotify.com/v1/me/player/"+direction+"?device_id="+await this.spotifyService.getCurrentDeviceId(), {
+      headers: {
+        Accept: "application/json",
+        Authorization: "Bearer "+this.spotifyService.getCurrentAccessToken(),
+        "Content-Type": "application/json"
+      },
+      method: "POST"
+    })
+ }
 
 }
 

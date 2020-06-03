@@ -13,6 +13,7 @@ import { faPlay } from '@fortawesome/free-solid-svg-icons';
 export class PlaylistComponent implements OnInit {
   tracksArray: any[];
   playlistName: string;
+  playlistUri: string;
   spotifyService: SpotifyService;
   playerService: PlayerService;
   route: ActivatedRoute;
@@ -32,6 +33,7 @@ export class PlaylistComponent implements OnInit {
           (res: any) => {
             this.tracksArray = res.tracks.items;
             this.playlistName = res.name;
+            this.playlistUri = res.uri;
           }
         );
       }

@@ -56,9 +56,20 @@ export class SpotifyService {
   }
 
   getCurrentAccessToken(){
-    return [this.spotifyApi._credentials.accessToken];
+    return this.spotifyApi._credentials.accessToken;
   }
 
+
+  getCurrentDeviceId(){
+    return this.spotifyApi.getMyCurrentPlaybackState({
+    })
+    .then(function(data) {
+      console.log(data.body.device.id);
+      return data.body.device.id;
+    }, function(err) {
+      console.log('Something went wrong!', err);
+    });
+  }
 
 }
 
