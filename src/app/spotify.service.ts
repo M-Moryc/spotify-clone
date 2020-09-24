@@ -68,6 +68,10 @@ export class SpotifyService {
     });
   }
 
+  getCurrentPlayback(){
+    return this.http.get(`api/get_player?accessToken=${this.getCurrentAccessToken()}`);
+  }
+
 }
 
 
