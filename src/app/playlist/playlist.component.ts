@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import { SpotifyService } from '../spotify.service'
-import { PlayerService } from '../player.service';
 import { from } from 'rxjs';
 import { faPlay } from '@fortawesome/free-solid-svg-icons';
 
@@ -15,13 +14,11 @@ export class PlaylistComponent implements OnInit {
   playlistName: string;
   playlistUri: string;
   spotifyService: SpotifyService;
-  playerService: PlayerService;
   route: ActivatedRoute;
   faPlay = faPlay;
 
-  constructor(route: ActivatedRoute, spotifyService: SpotifyService, playerService: PlayerService) {
+  constructor(route: ActivatedRoute, spotifyService: SpotifyService) {
     this.spotifyService = spotifyService;
-    this.playerService = playerService;
     this.route = route;
 
   }
@@ -31,6 +28,7 @@ export class PlaylistComponent implements OnInit {
       (params) => {
         from(this.spotifyService.getPlaylist(params.id)).subscribe(
           (res: any) => {
+            console.log(res);
             this.tracksArray = res.tracks.items;
             this.playlistName = res.name;
             this.playlistUri = res.uri;

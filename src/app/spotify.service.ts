@@ -1,7 +1,5 @@
 import { Injectable } from '@angular/core';
 import spotifyWebApi from 'spotify-web-api-node';
-import { from, Observable, of, Subject } from 'rxjs';
-import { map } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http'
 
 
@@ -31,13 +29,12 @@ export class SpotifyService {
    }
 
   getUserPlaylists(){
-    return from(this.spotifyApi.getUserPlaylists( {limit: '50'}))
-      .pipe(map((res: any) => res.body.items));
+    console.log('getting playlists');
+      return this.http.get('api/get_user_playlists?accessToken='+this.getCurrentAccessToken());
   }
 
   getPlaylist(playlistid: string){
-    return this.spotifyApi.getPlaylist( playlistid).then(
-    (res: any) => {console.log(res.body); return res.body});
+    return this.http.get(`api/get_playlist?accessToken=${this.getCurrentAccessToken()}&playlistId=${playlistid}`);
 
   }
 
@@ -46,7 +43,7 @@ export class SpotifyService {
         await delay(ms);
       }
       const refreshToken = JSON.parse(localStorage.getItem('refreshToken'));
-      this.http.get('api?refreshToken='+ refreshToken).subscribe(
+      this.http.get('api/refresh_token?refreshToken='+ refreshToken).subscribe(
         (res: any) =>{
           this.setAccessToken(res.token, true);
         }

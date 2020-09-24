@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import {SpotifyService} from '../spotify.service';
-import { PlayerService } from '../player.service';
 import {Router} from '@angular/router';
 
 
@@ -10,9 +9,8 @@ import {Router} from '@angular/router';
   styleUrls: ['./home.component.css'],
 })
 export class HomeComponent implements OnInit {
-  playerService: PlayerService;
 
-  constructor(SpotifyService: SpotifyService, PlayerService: PlayerService, router: Router) {
+  constructor(SpotifyService: SpotifyService, router: Router) {
     const expirationDate: Date | null = new Date(JSON.parse(localStorage.getItem('accessExpiration')));
     if(expirationDate != null && expirationDate.getTime() > new Date().getTime()){
       SpotifyService.setAccessToken();
@@ -25,7 +23,6 @@ export class HomeComponent implements OnInit {
     else{
       router.navigate(['/login']);
     }
-    this.playerService = PlayerService;
 
 
    }

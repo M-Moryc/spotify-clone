@@ -1,7 +1,6 @@
 import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy} from '@angular/core';
 import { faHeart, faArrowLeft, faPlayCircle, faArrowRight } from '@fortawesome/free-solid-svg-icons';
 import { SpotifyService } from '../spotify.service';
-import { PlayerService } from '../player.service';
 
 
 
@@ -16,7 +15,6 @@ export class PlaybackBarComponent implements OnInit {
   arrowRight = faArrowRight;
   playCircle = faPlayCircle;
   spotifyService:SpotifyService;
-  playerService: PlayerService;
   changeDetector: ChangeDetectorRef;
 
   currentTrack = {
@@ -24,21 +22,12 @@ export class PlaybackBarComponent implements OnInit {
     artist: '',
     cover: ''
   }
-  constructor(spotifyService:SpotifyService, playerService: PlayerService, changeDetector: ChangeDetectorRef) {
+  constructor(spotifyService:SpotifyService, changeDetector: ChangeDetectorRef) {
     this.spotifyService = spotifyService;
-    this.playerService = playerService;
     this.changeDetector = changeDetector;
   }
 
   ngOnInit(): void {
-    this.playerService.currentTrack.subscribe(
-      (res: any) =>
-       {
-         console.log('observed', res);
-         this.currentTrack = res;
-         this.changeDetector.detectChanges();
-
-      });
       this.spotifyService.getCurrentDeviceId();
   }
 
