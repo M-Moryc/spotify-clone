@@ -1,6 +1,9 @@
 import { Injectable } from '@angular/core';
 import spotifyWebApi from 'spotify-web-api-node';
-import { HttpClient } from '@angular/common/http'
+import { HttpClient } from '@angular/common/http';
+import openSocket from 'socket.io-client';
+import { Subject, BehaviorSubject } from 'rxjs';
+import {CurrentTrack} from './types';
 
 
 
@@ -13,9 +16,15 @@ export class SpotifyService {
   http: HttpClient;
 
   spotifyApi: spotifyWebApi;
+  io = openSocket('ws://localhost:8080');
+  currentTrack = new Subject<CurrentTrack>();
+  trackProgress =  new BehaviorSubject<number>(0);
   constructor(http: HttpClient) {
       this.spotifyApi =  new spotifyWebApi();
       this.http = http;
+      setInterval(()=>{
+        this.trackProgress.next(this.trackProgress.getValue() + 1000);
+      }, 1000);
 
     }
 
@@ -69,8 +78,42 @@ export class SpotifyService {
   }
 
   getCurrentPlayback(){
-    return this.http.get(`api/get_player?accessToken=${this.getCurrentAccessToken()}`);
+      this.http.get(`api/get_player?accessToken=${this.getCurrentAccessToken()}`).subscribe((res: any) =>{
+        console.log(res);
+        this.currentTrack.next({
+          name: res.item.name,
+            artist: res.item.artists[0].name,
+            cover: res.item.album.images[0].url,
+            duration: {min: (Math.floor((res.item.duration_ms/1000/60) << 0)),
+              sec: (Math.floor((res.item.duration_ms/1000) % 60)),
+            ms: res.item.duration_ms}
+        })
+        this.trackProgress.next(res.progress_ms);
+        console.log(res.progress_ms);
+      }); //load current track for the first time
+    return this.currentTrack;
   }
+
+  connectToWebsocket(){
+    this.io.emit('initiate', { accessToken: this.getCurrentAccessToken() });
+    this.io.on('track_change', track => {
+      console.log(track);
+      this.currentTrack.next({
+        name: track.name,
+          artist: track.artists[0].name,
+          cover: track.album.images[0].url,
+          duration: {min: (Math.floor((track.duration_ms/1000/60) << 0)),
+            sec: (Math.floor((track.duration_ms/1000) % 60)),
+            ms: track.duration_ms
+          }
+      });
+      this.trackProgress.next(0);
+    });
+    this.io.on('seek', progress => {
+      this.trackProgress.next(progress);
+    })
+  }
+
 
 }
 

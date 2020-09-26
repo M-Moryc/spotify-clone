@@ -28,6 +28,7 @@
     "node-modules": "^1.0.1",
     "rxjs": "~6.5.4",
     "scriptjs": "^2.5.9",
+    "socket.io-client": "^2.3.0",
     "spotify-web-api-node": "^4.0.0",
     "tslib": "^1.10.0",
     "zone.js": "~0.10.2"

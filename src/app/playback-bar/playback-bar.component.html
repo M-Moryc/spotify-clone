@@ -2,7 +2,7 @@
   <div class="row">
     <div class="music">
       <div class="img">
-        <img src={{currentTrack.cover}} alt="error img...">
+        <img [src]="currentTrack.cover" alt="error img...">
       </div>
       <div class="autor">
         <p>{{currentTrack.name}}</p>
@@ -21,9 +21,9 @@
       <div class="playback">
         <span>0:00</span>
         <div class="progress">
-          <div class="progress-bar" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" [style.width]="currentTrack.progress+'%'"></div>
+          <div class="progress-bar" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" [style.width]="progress"></div>
         </div>
-        <span>{{currentTrack.duration.min+":"+currentTrack.duration.sec}}</span>
+        <span>{{currentTrack.duration.min}}:{{currentTrack.duration.sec}}</span>
       </div>
     </div>
     <div class="volume">
