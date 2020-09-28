@@ -14,12 +14,15 @@
     </div>
     <div class="controls">
       <div class="controls-track">
-        <span><img src="assets/img/arrowLeft1.svg" alt="asdas"></span>
-        <span><img src="assets/img/playArrow.svg" alt="asdas"></span>
-        <span><img src="assets/img/arrowRight1.svg" alt="asdas"></span>
+        <span (click)="spotifyService.io.emit('previous_track')"><img src="assets/img/arrowLeft1.svg" alt="asdas"></span>
+        <span
+          (click)="spotifyService.isPlaying.getValue()?spotifyService.io.emit('pause'):spotifyService.io.emit('play')">
+          <img src="assets/img/playArrow.svg" alt="asdas">
+        </span>
+        <span (click)="spotifyService.io.emit('next_track')"><img src="assets/img/arrowRight1.svg" alt="asdas"></span>
       </div>
       <div class="playback">
-        <span>0:00</span>
+        <span>{{progressString}}</span>
         <div class="progress">
           <div class="progress-bar" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" [style.width]="progress"></div>
         </div>
