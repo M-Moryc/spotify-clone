@@ -83,8 +83,13 @@
   box-shadow: inset 0 0 3px black;
 }
 .progress-bar {
+  width:100%;
+  background-color: transparent;
+}
+input[type="range"]::-moz-range-progress{
   background-color: #1DB954;
-  box-shadow: inset 0 0 3px black;
+  height: 100%;
+
 }
 .controls-track {
   width: 100%;

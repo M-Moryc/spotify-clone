@@ -26,9 +26,9 @@ export class PlaybackBarComponent implements OnInit {
     name: '',
     artist: '',
     cover: '',
-    duration: {min: 0, sec: 0, ms: 0}
+    duration: {min: 0, sec: 0, ms: 0},
   };
-  progress = '0%';
+  progress = 0;
   progressString = '0:00';
   constructor(spotifyService:SpotifyService, changeDetector: ChangeDetectorRef, http: HttpClient) {
     this.spotifyService = spotifyService;
@@ -42,10 +42,14 @@ export class PlaybackBarComponent implements OnInit {
           Object.assign(this.currentTrack, res);
       });// subscribe to track changes
       this.spotifyService.trackProgress.subscribe((res) =>{
-        this.progress = Math.floor(res/this.currentTrack.duration.ms *100) + '%'; // current track percentage
+        this.progress = Math.round(res/this.currentTrack.duration.ms *100); // current track percentage
         this.progressString = `${(Math.floor((res/1000/60) << 0))}:${(Math.floor((res/1000) % 60))}` // minutes:seconds
 
       })
+  }
+
+  seek(event: any){
+    this.spotifyService.io.emit('seek', event.target.value * (this.currentTrack.duration.ms / 100));
   }
 
 
