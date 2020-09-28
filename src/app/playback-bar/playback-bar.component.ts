@@ -49,7 +49,7 @@ export class PlaybackBarComponent implements OnInit {
   }
 
   seek(event: any){
-    this.spotifyService.io.emit('seek', event.target.value * (this.currentTrack.duration.ms / 100));
+    this.spotifyService.io.emit('seek', Math.round(event.target.value * (this.currentTrack.duration.ms / 100)));
   }
 
 
