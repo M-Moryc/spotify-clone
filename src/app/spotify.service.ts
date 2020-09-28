@@ -19,10 +19,13 @@ export class SpotifyService {
   io = openSocket('ws://localhost:8080');
   currentTrack = new Subject<CurrentTrack>();
   trackProgress =  new BehaviorSubject<number>(0);
+  isPlaying = new BehaviorSubject<boolean>(false);
   constructor(http: HttpClient) {
       this.spotifyApi =  new spotifyWebApi();
       this.http = http;
-      setInterval(()=>{
+      setInterval(() => {
+        if(!this.isPlaying.getValue())
+          return;
         this.trackProgress.next(this.trackProgress.getValue() + 1000);
       }, 1000);
 
@@ -90,6 +93,7 @@ export class SpotifyService {
         })
         this.trackProgress.next(res.progress_ms);
         console.log(res.progress_ms);
+        this.isPlaying.next(res.is_playing);
       }); //load current track for the first time
     return this.currentTrack;
   }
@@ -111,7 +115,13 @@ export class SpotifyService {
     });
     this.io.on('seek', progress => {
       this.trackProgress.next(progress);
-    })
+    });
+    this.io.on('playback_started', () =>{
+      this.isPlaying.next(true);
+    });
+    this.io.on('playback_paused', () =>{
+      this.isPlaying.next(false);
+    });
   }
 
 

@@ -41,8 +41,7 @@ export class PlaybackBarComponent implements OnInit {
           Object.assign(this.currentTrack, res);
       });// subscribe to track changes
       this.spotifyService.trackProgress.subscribe((res) =>{
-        this.progress = res/this.currentTrack.duration.ms *100 + '%';
-        console.log(this.progress);
+        this.progress = Math.floor(res/this.currentTrack.duration.ms *100) + '%';
       })
   }
 
