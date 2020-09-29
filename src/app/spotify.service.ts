@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import spotifyWebApi from 'spotify-web-api-node';
 import { HttpClient } from '@angular/common/http';
+import { Router } from '@angular/router';
 import openSocket from 'socket.io-client';
 import { Subject, BehaviorSubject } from 'rxjs';
 import {CurrentTrack} from './types';
@@ -15,14 +16,31 @@ import {CurrentTrack} from './types';
 export class SpotifyService {
   http: HttpClient;
 
-  spotifyApi: spotifyWebApi;
+  spotifyApi
+  router: Router;
+  tokenIsFresh: boolean | Promise<boolean>;
   io = openSocket('ws://localhost:8080');
   currentTrack = new Subject<CurrentTrack>();
   trackProgress =  new BehaviorSubject<number>(0);
   isPlaying = new BehaviorSubject<boolean>(false);
-  constructor(http: HttpClient) {
+  constructor(http: HttpClient, router: Router) {
       this.spotifyApi =  new spotifyWebApi();
       this.http = http;
+      this.router = router;
+      this.tokenIsFresh = new Promise(async (resolve) =>{
+        const expirationDate: Date | null = new Date(JSON.parse(localStorage.getItem('accessExpiration')));
+        if(expirationDate != null && expirationDate.getTime() > new Date().getTime()){
+          this.setAccessToken();
+          this.refreshToken(expirationDate.getTime() - new Date().getTime());
+          resolve(true);
+        }
+        else if(JSON.parse(localStorage.getItem('accessToken'))){
+          resolve(await this.refreshToken(0));
+        }
+        else{
+          this.router.navigate(['/login']);
+          resolve(true);
+        }});
       setInterval(() => {
         if(!this.isPlaying.getValue())
           return;
@@ -31,7 +49,7 @@ export class SpotifyService {
 
     }
 
-   setAccessToken(accessToken = JSON.parse(localStorage.getItem('accessToken')), isNew = false){
+   setAccessToken(accessToken = JSON.parse(localStorage.getItem('accessToken')), isNew = false){ //if token is fresh it will be saved to localstorage with an expiracy date
      if(isNew){
        localStorage.setItem('accessExpiration',JSON.stringify(new Date((new Date()).getTime() + 3600000)));
        localStorage.setItem('accessToken', JSON.stringify(accessToken));
@@ -40,48 +58,36 @@ export class SpotifyService {
       console.log(this.spotifyApi);
    }
 
-  getUserPlaylists(){
+  async getUserPlaylists(){
     console.log('getting playlists');
-      return this.http.get('api/get_user_playlists?accessToken='+this.getCurrentAccessToken());
+      return this.http.get('api/get_user_playlists?accessToken='+await this.getCurrentAccessToken());
   }
 
-  getPlaylist(playlistid: string){
-    return this.http.get(`api/get_playlist?accessToken=${this.getCurrentAccessToken()}&playlistId=${playlistid}`);
+  async getPlaylist(playlistid: string){
+    return this.http.get(`api/get_playlist?accessToken=${await this.getCurrentAccessToken()}&playlistId=${playlistid}`);
 
   }
 
-  async refreshToken(ms: number, instantRefresh = false){
-      if(!instantRefresh){
-        await delay(ms);
-      }
-      const refreshToken = JSON.parse(localStorage.getItem('refreshToken'));
-      this.http.get('api/refresh_token?refreshToken='+ refreshToken).subscribe(
-        (res: any) =>{
-          this.setAccessToken(res.token, true);
-        }
-      );
-      //autorefresh every 59mins
+  async refreshToken(ms: number){
+    await delay(ms);
+    const refreshToken = JSON.parse(localStorage.getItem('refreshToken'));
+    console.log('refreshing token');
+    const { token } = await this.http.get<any>('api/refresh_token?refreshToken='+ refreshToken).toPromise();
+    console.log(token);
+    this.setAccessToken(token, true);
     this.refreshToken(3540000);
+    return true;
   }
 
-  getCurrentAccessToken(){
-    return this.spotifyApi._credentials.accessToken;
+  async getCurrentAccessToken(){
+    console.log(this.tokenIsFresh);
+    if(await this.tokenIsFresh)
+      return this.spotifyApi._credentials.accessToken;
   }
 
 
-  getCurrentDeviceId(){
-    return this.spotifyApi.getMyCurrentPlaybackState({
-    })
-    .then(function(data) {
-      console.log(data.body.device.id);
-      return data.body.device.id;
-    }, function(err) {
-      console.log('Something went wrong!', err);
-    });
-  }
-
-  getCurrentPlayback(){
-      this.http.get(`api/get_player?accessToken=${this.getCurrentAccessToken()}`).subscribe((res: any) =>{
+  async getCurrentPlayback(){
+      this.http.get(`api/get_player?accessToken=${await this.getCurrentAccessToken()}`).subscribe((res: any) =>{
         console.log(res);
         this.currentTrack.next({
           name: res.item.name,
@@ -98,8 +104,8 @@ export class SpotifyService {
     return this.currentTrack;
   }
 
-  connectToWebsocket(){
-    this.io.emit('initiate', { accessToken: this.getCurrentAccessToken() });
+  async connectToWebsocket(){
+    this.io.emit('initiate', { accessToken: await this.getCurrentAccessToken() });
     this.io.on('track_change', track => {
       console.log(track);
       this.currentTrack.next({

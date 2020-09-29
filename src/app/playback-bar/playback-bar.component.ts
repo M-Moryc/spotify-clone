@@ -36,9 +36,9 @@ export class PlaybackBarComponent implements OnInit {
     this.http = http;
   }
 
-  ngOnInit(): void {
+  async ngOnInit() {
       this.spotifyService.connectToWebsocket();
-      this.spotifyService.getCurrentPlayback().subscribe((res: any) =>{
+      (await this.spotifyService.getCurrentPlayback()).subscribe((res: any) =>{
           Object.assign(this.currentTrack, res);
       });// subscribe to track changes
       this.spotifyService.trackProgress.subscribe((res) =>{

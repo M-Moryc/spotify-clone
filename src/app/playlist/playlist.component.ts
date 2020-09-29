@@ -23,10 +23,10 @@ export class PlaylistComponent implements OnInit {
 
   }
 
-  ngOnInit(): void {
+  async ngOnInit() {
     this.route.params.subscribe(
-      (params) => {
-        from(this.spotifyService.getPlaylist(params.id)).subscribe(
+      async (params) => {
+        from(await this.spotifyService.getPlaylist(params.id)).subscribe(
           (res: any) => {
             console.log(res);
             this.tracksArray = res.tracks.items;

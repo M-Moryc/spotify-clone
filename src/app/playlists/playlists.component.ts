@@ -22,8 +22,8 @@ export class PlaylistsComponent implements OnInit {
 
   }
 
-  ngOnInit(): void {
-    this.playlistArray = this.spotifyService.getUserPlaylists();
+  async ngOnInit() {
+    this.playlistArray = await this.spotifyService.getUserPlaylists();
   }
 
 
